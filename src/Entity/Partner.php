@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PartnerRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -29,6 +31,14 @@ class Partner implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     private ?string $password = null;
+
+    #[ORM\OneToMany(targetEntity: Consumer::class, mappedBy: 'partner', orphanRemoval: true)]
+    private Collection $consumers;
+
+    public function __construct()
+    {
+        $this->consumers = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -103,5 +113,35 @@ class Partner implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection<int, Consumer>
+     */
+    public function getConsumers(): Collection
+    {
+        return $this->consumers;
+    }
+
+    public function addConsumer(Consumer $consumer): static
+    {
+        if (!$this->consumers->contains($consumer)) {
+            $this->consumers->add($consumer);
+            $consumer->setPartner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeConsumer(Consumer $consumer): static
+    {
+        if ($this->consumers->removeElement($consumer)) {
+            // set the owning side to null (unless already changed)
+            if ($consumer->getPartner() === $this) {
+                $consumer->setPartner(null);
+            }
+        }
+
+        return $this;
     }
 }
