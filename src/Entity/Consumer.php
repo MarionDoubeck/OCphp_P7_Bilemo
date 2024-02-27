@@ -31,6 +31,10 @@ class Consumer
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $city = null;
 
+    #[ORM\ManyToOne(inversedBy: 'consumers')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Partner $partner = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -104,6 +108,18 @@ class Consumer
     public function setCity(?string $city): static
     {
         $this->city = $city;
+
+        return $this;
+    }
+
+    public function getPartner(): ?Partner
+    {
+        return $this->partner;
+    }
+
+    public function setPartner(?Partner $partner): static
+    {
+        $this->partner = $partner;
 
         return $this;
     }
