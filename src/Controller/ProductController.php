@@ -36,6 +36,6 @@ class ProductController extends AbstractController
             return new JsonResponse($jsonProduct, Response::HTTP_OK, [], true);
         }
         return new JsonResponse(null, Response::HTTP_NOT_FOUND);
-   }
-   
+    }
+
 }
