@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ConsumerRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ConsumerRepository::class)]
 class Consumer
@@ -11,24 +12,31 @@ class Consumer
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(["getPartner"])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(["getPartner"])]
     private ?string $firstName = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(["getPartner"])]
     private ?string $lastName = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(["getPartner"])]
     private ?string $email = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(["getPartner"])]
     private ?string $adress = null;
 
     #[ORM\Column(length: 20, nullable: true)]
+    #[Groups(["getPartner"])]
     private ?string $postCode = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(["getPartner"])]
     private ?string $city = null;
 
     #[ORM\ManyToOne(inversedBy: 'consumers')]
