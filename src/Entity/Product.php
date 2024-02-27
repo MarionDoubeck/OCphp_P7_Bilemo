@@ -24,7 +24,7 @@ class Product
     private ?float $price = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $descritpion = null;
+    private ?string $description = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $created_at = null;
@@ -70,14 +70,14 @@ class Product
         return $this;
     }
 
-    public function getDescritpion(): ?string
+    public function getDescription(): ?string
     {
-        return $this->descritpion;
+        return $this->description;
     }
 
-    public function setDescritpion(?string $descritpion): static
+    public function setDescription(?string $description): static
     {
-        $this->descritpion = $descritpion;
+        $this->description = $description;
 
         return $this;
     }
