@@ -21,6 +21,23 @@ class ConsumerRepository extends ServiceEntityRepository
         parent::__construct($registry, Consumer::class);
     }
 
+
+    /**
+     * Finds all consumers associated with a specific partner.
+     *
+     * @param int $partnerId The ID of the partner
+     * @return Consumer[] A list of consumers associated with the partner
+     */
+    public function findByPartnerId(int $partnerId): array
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.partner = :partnerId')
+            ->setParameter('partnerId', $partnerId)
+            ->getQuery()
+            ->getResult();
+    }
+
+
     //    /**
     //     * @return Consumer[] Returns an array of Consumer objects
     //     */
