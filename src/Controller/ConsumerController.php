@@ -6,13 +6,14 @@ use App\Entity\Consumer;
 use App\Repository\ConsumerRepository;
 use App\Repository\PartnerRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use JMS\Serializer\SerializationContext;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use JMS\Serializer\SerializerInterface;
 
 class ConsumerController extends AbstractController
 {
@@ -20,11 +21,12 @@ class ConsumerController extends AbstractController
     public function getAllconsumers(
         int $partner_id,
         ConsumerRepository $consumerRepository,
-        SerializerInterface $serializerInterface
+        SerializerInterface $serializer
     ): JsonResponse
     {
         $consumerList = $consumerRepository->findByPartnerId($partner_id);
-        $jsonConsumerList = $serializerInterface->serialize($consumerList, 'json', ['groups'=>'getPartner']);
+        $context = SerializationContext::create()->setGroups(['getPartner']);
+        $jsonConsumerList = $serializer->serialize($consumerList, 'json', $context);
 
         return new JsonResponse($jsonConsumerList, Response::HTTP_OK, [], true);
     }
@@ -34,12 +36,13 @@ class ConsumerController extends AbstractController
         int $partner_id,
         int $id,
         consumerRepository $consumerRepository,
-        SerializerInterface $serializerInterface
+        SerializerInterface $serializer
     ): JsonResponse {
 
         $consumer = $consumerRepository->find($id);
         if ($consumer && $consumer->getPartner()->getId() === $partner_id) {
-            $jsonConsumer = $serializerInterface->serialize($consumer, 'json', ['groups'=>'getPartner']);
+            $context = SerializationContext::create()->setGroups(['getPartner']);
+            $jsonConsumer = $serializer->serialize($consumer, 'json', $context);
             return new JsonResponse($jsonConsumer, Response::HTTP_OK, [], true);
         } else {
             return new JsonResponse(['message' => 'Ce client n\'existe pas ou n\'est pas associé à votre portefeuille client.'], Response::HTTP_NOT_FOUND);
@@ -66,7 +69,7 @@ class ConsumerController extends AbstractController
         int $partner_id,
         PartnerRepository $partnerRepository,
         Request $request,
-        SerializerInterface $serializerInterface,
+        SerializerInterface $serializer,
         EntityManagerInterface $em,
         ValidatorInterface $validator
     ): JsonResponse {
@@ -75,16 +78,17 @@ class ConsumerController extends AbstractController
             return new JsonResponse(["error" => "Partner not found"], Response::HTTP_NOT_FOUND);
         }
     
-        $consumer = $serializerInterface->deserialize($request->getContent(), consumer::class, 'json');
+        $consumer = $serializer->deserialize($request->getContent(), consumer::class, 'json');
 
         $errors = $validator->validate($consumer);
         if($errors->count() > 0){
-            return new JsonResponse($serializerInterface->serialize($errors, 'json'), JsonResponse::HTTP_BAD_REQUEST, [], true);
+            return new JsonResponse($serializer->serialize($errors, 'json'), JsonResponse::HTTP_BAD_REQUEST, [], true);
         }
             $consumer->setPartner($partner);
             $em->persist($consumer);
             $em->flush();
-            $jsonConsumer = $serializerInterface->serialize($consumer, 'json', ['groups' => 'getconsumers']);
+            $context = SerializationContext::create()->setGroups(['getPartner']);
+            $jsonConsumer = $serializer->serialize($consumer, 'json', $context);
             return new JsonResponse($jsonConsumer, Response::HTTP_CREATED, [], true);
     }
 

@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Serializer\SerializerInterface;
+use JMS\Serializer\SerializerInterface;
 
 class ProductController extends AbstractController
 {
@@ -34,6 +34,8 @@ class ProductController extends AbstractController
         if ($product) {
             $jsonProduct = $serializerInterface->serialize($product, 'json');
             return new JsonResponse($jsonProduct, Response::HTTP_OK, [], true);
+        } else {
+            return new JsonResponse(['message' => 'Ce produit n\'est pas ou plus référencé.'], Response::HTTP_NOT_FOUND);
         }
         return new JsonResponse(null, Response::HTTP_NOT_FOUND);
     }
