@@ -14,6 +14,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use JMS\Serializer\SerializerInterface;
+use Symfony\Contracts\Cache\ItemInterface;
+use Symfony\Contracts\Cache\TagAwareCacheInterface;
 
 class ConsumerController extends AbstractController
 {
@@ -22,13 +24,21 @@ class ConsumerController extends AbstractController
         int $partner_id,
         ConsumerRepository $consumerRepository,
         SerializerInterface $serializer,
-        Request $request
+        Request $request,
+        TagAwareCacheInterface $cache
     ): JsonResponse
     {
         $page = $request->get('page',1);
         $limit = $request->get('limit',3);
 
-        $consumerList = $consumerRepository->findAllByPartnerIdWithPagination($partner_id, $page, $limit);
+        $idCache = "getAllConsumers-".$page."-".$limit;
+
+        $consumerList = $cache->get($idCache, function (ItemInterface $itemInCache) use ($consumerRepository, $partner_id, $page, $limit) {
+            echo ('pas encore en cache');
+            $itemInCache->tag("consumersCache");
+            return $consumerRepository->findAllByPartnerIdWithPagination($partner_id, $page, $limit);
+        });
+
         $context = SerializationContext::create()->setGroups(['getPartner']);
         $jsonConsumerList = $serializer->serialize($consumerList, 'json', $context);
 
@@ -59,10 +69,12 @@ class ConsumerController extends AbstractController
         int $partner_id,
         Consumer $consumer,
         EntityManagerInterface $em,
+        TagAwareCacheInterface $cache
     ): JsonResponse {
         if ($consumer->getPartner()->getId() !== $partner_id) {
             return new JsonResponse(['error' => 'Le consommateur n\'appartient pas à votre portefeuille client'], Response::HTTP_BAD_REQUEST);
         }
+        $cache->invalidateTags(["consumersCache"]);
         $em->remove($consumer);
         $em->flush();
         return new JsonResponse(null, Response::HTTP_NO_CONTENT);
@@ -75,7 +87,8 @@ class ConsumerController extends AbstractController
         Request $request,
         SerializerInterface $serializer,
         EntityManagerInterface $em,
-        ValidatorInterface $validator
+        ValidatorInterface $validator,
+        TagAwareCacheInterface $cache
     ): JsonResponse {
         $partner = $partnerRepository->find($partner_id);
         if (!$partner) {
@@ -89,6 +102,7 @@ class ConsumerController extends AbstractController
             return new JsonResponse($serializer->serialize($errors, 'json'), JsonResponse::HTTP_BAD_REQUEST, [], true);
         }
             $consumer->setPartner($partner);
+            $cache->invalidateTags(["consumersCache"]);
             $em->persist($consumer);
             $em->flush();
             $context = SerializationContext::create()->setGroups(['getPartner']);
