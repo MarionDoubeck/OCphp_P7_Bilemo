@@ -23,43 +23,21 @@ class ConsumerRepository extends ServiceEntityRepository
 
 
     /**
-     * Finds all consumers associated with a specific partner.
+     * Finds all consumers associated with a specific partner and applies pagination.
      *
      * @param int $partnerId The ID of the partner
-     * @return Consumer[] A list of consumers associated with the partner
+     * @param int $page The page number
+     * @param int $limit The maximum number of consumers per page
+     * @return Consumer[] A paginated list of consumers associated with the partner
      */
-    public function findByPartnerId(int $partnerId): array
+    public function findAllByPartnerIdWithPagination(int $partnerId, int $page, int $limit): array
     {
-        return $this->createQueryBuilder('c')
+        $qb = $this->createQueryBuilder('c')
             ->andWhere('c.partner = :partnerId')
             ->setParameter('partnerId', $partnerId)
-            ->getQuery()
-            ->getResult();
+            ->setFirstResult(($page - 1) * $limit)
+            ->setMaxResults($limit);
+
+        return $qb->getQuery()->getResult();
     }
-
-
-    //    /**
-    //     * @return Consumer[] Returns an array of Consumer objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('c')
-    //            ->andWhere('c.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('c.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?Consumer
-    //    {
-    //        return $this->createQueryBuilder('c')
-    //            ->andWhere('c.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
 }

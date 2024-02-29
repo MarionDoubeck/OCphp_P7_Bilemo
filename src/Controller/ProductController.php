@@ -8,16 +8,21 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use JMS\Serializer\SerializerInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 class ProductController extends AbstractController
 {
     #[Route('/api/products', name: 'api_products', methods:['GET'])]
     public function getAllProducts(
         ProductRepository $productRepository,
-        SerializerInterface $serializerInterface
+        SerializerInterface $serializerInterface,
+        Request $request
     ): JsonResponse
     {
-        $productList = $productRepository->findAll();
+        $page = $request->get('page',1);
+        $limit = $request->get('limit',3);
+
+        $productList = $productRepository->findAllWithPagination($page, $limit);
         $jsonProductList = $serializerInterface->serialize($productList, 'json');
 
         return new JsonResponse($jsonProductList, Response::HTTP_OK, [], true);

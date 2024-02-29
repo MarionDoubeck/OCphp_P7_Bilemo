@@ -21,10 +21,14 @@ class ConsumerController extends AbstractController
     public function getAllconsumers(
         int $partner_id,
         ConsumerRepository $consumerRepository,
-        SerializerInterface $serializer
+        SerializerInterface $serializer,
+        Request $request
     ): JsonResponse
     {
-        $consumerList = $consumerRepository->findByPartnerId($partner_id);
+        $page = $request->get('page',1);
+        $limit = $request->get('limit',3);
+
+        $consumerList = $consumerRepository->findAllByPartnerIdWithPagination($partner_id, $page, $limit);
         $context = SerializationContext::create()->setGroups(['getPartner']);
         $jsonConsumerList = $serializer->serialize($consumerList, 'json', $context);
 
