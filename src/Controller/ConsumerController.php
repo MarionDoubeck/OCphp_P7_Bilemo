@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class ConsumerController extends AbstractController
 {
@@ -67,6 +68,7 @@ class ConsumerController extends AbstractController
         Request $request,
         SerializerInterface $serializerInterface,
         EntityManagerInterface $em,
+        ValidatorInterface $validator
     ): JsonResponse {
         $partner = $partnerRepository->find($partner_id);
         if (!$partner) {
@@ -74,13 +76,16 @@ class ConsumerController extends AbstractController
         }
     
         $consumer = $serializerInterface->deserialize($request->getContent(), consumer::class, 'json');
-        $consumer->setPartner($partner);
-        $em->persist($consumer);
-        $em->flush();
 
-        $jsonConsumer = $serializerInterface->serialize($consumer, 'json', ['groups' => 'getconsumers']);
-        
-        return new JsonResponse($jsonConsumer, Response::HTTP_CREATED, [], true);
+        $errors = $validator->validate($consumer);
+        if($errors->count() > 0){
+            return new JsonResponse($serializerInterface->serialize($errors, 'json'), JsonResponse::HTTP_BAD_REQUEST, [], true);
+        }
+            $consumer->setPartner($partner);
+            $em->persist($consumer);
+            $em->flush();
+            $jsonConsumer = $serializerInterface->serialize($consumer, 'json', ['groups' => 'getconsumers']);
+            return new JsonResponse($jsonConsumer, Response::HTTP_CREATED, [], true);
     }
 
 }

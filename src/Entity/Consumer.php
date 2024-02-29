@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ConsumerRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ConsumerRepository::class)]
 class Consumer
@@ -17,14 +18,20 @@ class Consumer
 
     #[ORM\Column(length: 255)]
     #[Groups(["getPartner"])]
+    #[Assert\NotBlank(message: "Le prénom du client est obligatoire")]
+    #[Assert\Length(min:1, max: 255, minMessage:"Le prénom du client doit faire au moins {{limit}} caractère(s)", maxMessage:"Le prénom du client doit faire au plus {{limit}} caractères")]
     private ?string $firstName = null;
 
     #[ORM\Column(length: 255)]
     #[Groups(["getPartner"])]
+    #[Assert\NotBlank(message: "Le nom du client est obligatoire")]
+    #[Assert\Length(min:1, max: 255, minMessage:"Le nom du client doit faire au moins {{limit}} caractère(s)", maxMessage:"Le nom du client doit faire au plus {{limit}} caractères")]
     private ?string $lastName = null;
 
     #[ORM\Column(length: 255)]
     #[Groups(["getPartner"])]
+    #[Assert\NotBlank(message: "L'adresse email du client est obligatoire")]
+    #[Assert\Email(message: "L'adresse email du client n'est pas valide")]
     private ?string $email = null;
 
     #[ORM\Column(length: 255, nullable: true)]
