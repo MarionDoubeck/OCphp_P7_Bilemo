@@ -30,7 +30,7 @@ use Hateoas\Configuration\Annotation as Hateoas;
  *              "id" = "expr(object.getId())" 
  *          },
  *      ),
- *      exclusion = @Hateoas\Exclusion(groups="getPartner", excludeIf = "expr(not is_granted('ROLE_ADMIN'))"),
+ *      exclusion = @Hateoas\Exclusion(groups="getPartner")
  * )
  */
 #[ORM\Entity(repositoryClass: ConsumerRepository::class)]
