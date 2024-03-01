@@ -24,7 +24,9 @@ class PartnerRepository extends ServiceEntityRepository implements PasswordUpgra
 
 
     /**
-     * PartnerRepository constructor.
+     * Constructor.
+     *
+     * @param ManagerRegistry $registry The registry.
      */
     public function __construct(ManagerRegistry $registry)
     {
