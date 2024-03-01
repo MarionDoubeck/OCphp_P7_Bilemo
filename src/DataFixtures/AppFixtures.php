@@ -62,13 +62,13 @@ class AppFixtures extends Fixture
                    'Apple',
                    'Samsung',
                    'Huawei',
-                   'Xiaomi', 
-                   'Google', 
+                   'Xiaomi',
+                   'Google',
                    'Sony',
-                   'Oppo', 
+                   'Oppo',
                    'OnePlus',
                    'Motorola',
-                   'Vivo'
+                   'Vivo',
                   ];
         for ($i = 1; $i < 30; $i++) {
             $mobile = new Product;
@@ -98,4 +98,4 @@ class AppFixtures extends Fixture
     }//end load()
 
 
-}
+}//end class
