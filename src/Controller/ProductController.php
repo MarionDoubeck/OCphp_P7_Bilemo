@@ -102,8 +102,8 @@ class ProductController extends AbstractController
      *     )
      * )
      *
-     * @param int $id The ID of the product.
-     * @param ProductRepository $productRepository The product repository.
+     * @param int                 $id The ID of the product.
+     * @param ProductRepository   $productRepository The product repository.
      * @param SerializerInterface $serializerInterface The serializer.
      * @return JsonResponse The JSON response containing the product details.
      */
