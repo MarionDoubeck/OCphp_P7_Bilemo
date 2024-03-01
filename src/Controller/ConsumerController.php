@@ -16,9 +16,44 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use JMS\Serializer\SerializerInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\Cache\TagAwareCacheInterface;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Annotation\Security;
+use OpenApi\Annotations as OA;
 
 class ConsumerController extends AbstractController
 {
+    /**
+     * Retrieves a paginated list of consumers associated with a specific partner.
+     *
+     * @OA\Parameter(
+     *     name="page",
+     *     in="query",
+     *     description="Le numéro de la page à récupérer.",
+     *     @OA\Schema(type="int")
+     * )
+     * @OA\Parameter(
+     *     name="limit",
+     *     in="query",
+     *     description="Le nombre maximal d'éléments par page.",
+     *     @OA\Schema(type="int")
+     * )
+     * @OA\Response(
+     *     response=200,
+     *     description="Retourne la liste des consommateurs associés à un partenaire spécifique.",
+     *     @OA\JsonContent(
+     *        type="array",
+     *        @OA\Items(ref=@Model(type=Consumer::class))
+     *     )
+     * )
+     * @OA\Tag(name="Consumers")
+     * 
+     * @param int $partner_id The ID of the partner.
+     * @param ConsumerRepository $consumerRepository The consumer repository.
+     * @param SerializerInterface $serializer The serializer.
+     * @param Request $request The request object.
+     * @param TagAwareCacheInterface $cache The cache service.
+     * @return JsonResponse The JSON response containing the paginated list of consumers.
+     */
     #[Route('/api/partners/{partner_id}/consumers', name: 'api_consumers', methods:['GET'])]
     public function getAllconsumers(
         int $partner_id,
@@ -31,13 +66,18 @@ class ConsumerController extends AbstractController
         $page = $request->get('page',1);
         $limit = $request->get('limit',3);
 
-        $idCache = "getAllConsumers-".$page."-".$limit;
+        $cacheKey = sprintf('partner_%d_consumers_page_%d_limit_%d', $partner_id, $page, $limit);
 
-        $consumerList = $cache->get($idCache, function (ItemInterface $itemInCache) use ($consumerRepository, $partner_id, $page, $limit) {
-            echo ('pas encore en cache');
+        $consumerList = $cache->get($cacheKey, function (ItemInterface $itemInCache) use ($consumerRepository, $partner_id, $page, $limit) {
+            //echo ('pas encore en cache');
             $itemInCache->tag("consumersCache");
-            return $consumerRepository->findAllByPartnerIdWithPagination($partner_id, $page, $limit);
+            $resultList = $consumerRepository->findAllByPartnerIdWithPagination($partner_id, $page, $limit);
+            return $resultList;
         });
+
+        if (count($consumerList) === 0) {
+            return new JsonResponse(['message' => 'Ce partenaire n existe pas ou son portefeuille client est vide.'], Response::HTTP_NOT_FOUND);
+        }
 
         $context = SerializationContext::create()->setGroups(['getPartner']);
         $jsonConsumerList = $serializer->serialize($consumerList, 'json', $context);
@@ -45,6 +85,47 @@ class ConsumerController extends AbstractController
         return new JsonResponse($jsonConsumerList, Response::HTTP_OK, [], true);
     }
 
+
+    /**
+     * Retrieves details of a consumer associated with a specific partner.
+     *
+     * @OA\Get(
+     *     path="/api/partners/{partner_id}/consumers/{id}",
+     *     summary="Retrieve details of a consumer",
+     *     description="Retrieves details of a consumer associated with a specific partner.",
+     *     operationId="getDetailConsumer",
+     *     tags={"Consumers"},
+     *     @OA\Parameter(
+     *         name="partner_id",
+     *         in="path",
+     *         description="The ID of the partner.",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="The ID of the consumer.",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(type="object")
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Consumer not found or not associated with the specified partner"
+     *     )
+     * )
+     *
+     * @param int $partner_id The ID of the partner.
+     * @param int $id The ID of the consumer.
+     * @param ConsumerRepository $consumerRepository The consumer repository.
+     * @param SerializerInterface $serializer The serializer.
+     * @return JsonResponse The JSON response containing the consumer details.
+     */
     #[Route('/api/partners/{partner_id}/consumers/{id}', name: 'api_detailConsumer', methods: ['GET'])]
     public function getDetailconsumer(
         int $partner_id,
@@ -64,6 +145,45 @@ class ConsumerController extends AbstractController
       
     }
 
+    /**
+     * Deletes a consumer associated with a specific partner.
+     *
+     * @OA\Delete(
+     *     path="/api/partners/{partner_id}/consumers/{id}",
+     *     summary="Delete a consumer",
+     *     description="Deletes a consumer associated with a specific partner.",
+     *     operationId="deleteConsumer",
+     *     tags={"Consumers"},
+     *     @OA\Parameter(
+     *         name="partner_id",
+     *         in="path",
+     *         description="The ID of the partner.",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="The ID of the consumer to delete.",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=204,
+     *         description="Consumer successfully deleted"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad request, consumer does not belong to the specified partner"
+     *     )
+     * )
+     *
+     * @param int $partner_id The ID of the partner.
+     * @param Consumer $consumer The consumer entity to delete.
+     * @param EntityManagerInterface $em The entity manager.
+     * @param TagAwareCacheInterface $cache The cache service.
+     * @return JsonResponse The JSON response indicating the success of the deletion.
+     */
     #[Route('/api/partners/{partner_id}/consumers/{id}', name: 'api_deleteConsumer', methods: ['DELETE'])]
     public function deleteConsumer(
         int $partner_id,
@@ -80,6 +200,57 @@ class ConsumerController extends AbstractController
         return new JsonResponse(null, Response::HTTP_NO_CONTENT);
     }
 
+
+    /**
+     * Creates a new consumer associated with a specific partner.
+     *
+     * @OA\Post(
+     *     path="/api/partners/{partner_id}/consumers",
+     *     summary="Create a new consumer",
+     *     description="Creates a new consumer associated with a specific partner.",
+     *     operationId="createConsumer",
+     *     tags={"Consumers"},
+     *     @OA\Parameter(
+     *         name="partner_id",
+     *         in="path",
+     *         description="The ID of the partner.",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         description="Consumer data to create",
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 ref="#/components/schemas/Consumer"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Consumer successfully created",
+     *         @OA\JsonContent(ref="#/components/schemas/Consumer")
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad request, validation errors occurred"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Partner not found"
+     *     )
+     * )
+     *
+     * @param int $partner_id The ID of the partner.
+     * @param PartnerRepository $partnerRepository The partner repository.
+     * @param Request $request The request object.
+     * @param SerializerInterface $serializer The serializer.
+     * @param EntityManagerInterface $em The entity manager.
+     * @param ValidatorInterface $validator The validator.
+     * @param TagAwareCacheInterface $cache The cache service.
+     * @return JsonResponse The JSON response containing the created consumer.
+     */
     #[Route('/api/partners/{partner_id}/consumers', name: 'api_createConsumer', methods: ['POST'])]
     public function createConsumer(
         int $partner_id,
