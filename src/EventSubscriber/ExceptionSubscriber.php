@@ -29,12 +29,17 @@ class ExceptionSubscriber implements EventSubscriberInterface
 
             $event->setResponse(new JsonResponse($data));
       }
+
     }//end onKernelException()
+
 
     public static function getSubscribedEvents(): array
     {
         return [
             KernelEvents::EXCEPTION => 'onKernelException',
         ];
+
     }//end getSubscribedEvents()
+
+
 }
