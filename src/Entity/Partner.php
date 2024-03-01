@@ -35,21 +35,45 @@ class Partner implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Consumer::class, mappedBy: 'partner', orphanRemoval: true)]
     private Collection $consumers;
 
+
+    /**
+     * Partner constructor.
+     */
     public function __construct()
     {
         $this->consumers = new ArrayCollection();
     }
 
+
+    /**
+     * Get the ID of the partner.
+     *
+     * @return int|null The ID of the partner.
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+
+    /**
+     * Get the username of the partner.
+     *
+     * @return string|null The username of the partner.
+     */
     public function getUsername(): ?string
     {
         return $this->username;
     }
 
+
+    /**
+     * Set the username of the partner.
+     *
+     * @param string $username The username of the partner.
+     * 
+     * @return self
+     */
     public function setUsername(string $username): static
     {
         $this->username = $username;
@@ -57,20 +81,26 @@ class Partner implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+
     /**
-     * A visual identifier that represents this user.
+     * Get a visual identifier that represents this user.
      *
      * @see UserInterface
+     *
+     * @return string The visual identifier of the user.
      */
     public function getUserIdentifier(): string
     {
         return (string) $this->username;
     }
 
+
     /**
-     * @see UserInterface
+     * Get the roles of the partner.
      *
-     * @return list<string>
+     * @see UserInterface
+     * 
+     * @return array The roles of the partner.
      */
     public function getRoles(): array
     {
@@ -81,8 +111,13 @@ class Partner implements UserInterface, PasswordAuthenticatedUserInterface
         return array_unique($roles);
     }
 
+
     /**
-     * @param list<string> $roles
+     * Set the roles of the partner.
+     *
+     * @param array $roles The roles of the partner.
+     * 
+     * @return self
      */
     public function setRoles(array $roles): static
     {
@@ -91,14 +126,27 @@ class Partner implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+
     /**
+     * Get the password of the partner.
+     *
      * @see PasswordAuthenticatedUserInterface
+     * 
+     * @return string The password of the partner.
      */
     public function getPassword(): string
     {
         return $this->password;
     }
 
+
+    /**
+     * Set the password of the partner.
+     *
+     * @param string $password The password of the partner.
+     * 
+     * @return self
+     */
     public function setPassword(string $password): static
     {
         $this->password = $password;
@@ -107,6 +155,8 @@ class Partner implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
+     * Erase the partner's credentials.
+     * 
      * @see UserInterface
      */
     public function eraseCredentials(): void
@@ -115,14 +165,25 @@ class Partner implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
+
     /**
-     * @return Collection<int, Consumer>
+     * Get the consumers associated with the partner.
+     * 
+     * @return Collection<int, Consumer> The consumers associated with the partner.
      */
     public function getConsumers(): Collection
     {
         return $this->consumers;
     }
 
+
+    /**
+     * Add a consumer to the partner.
+     *
+     * @param Consumer $consumer The consumer to add.
+     * 
+     * @return self
+     */
     public function addConsumer(Consumer $consumer): static
     {
         if (!$this->consumers->contains($consumer)) {
@@ -133,6 +194,14 @@ class Partner implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+
+    /**
+     * Remove a consumer from the partner.
+     *
+     * @param Consumer $consumer The consumer to remove.
+     * 
+     * @return self
+     */
     public function removeConsumer(Consumer $consumer): static
     {
         if ($this->consumers->removeElement($consumer)) {

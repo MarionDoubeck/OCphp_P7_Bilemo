@@ -40,16 +40,35 @@ class Product
     #[ORM\Column]
     private ?\DateTimeImmutable $created_at = null;
 
+
+    /**
+     * Get the ID of the product.
+     *
+     * @return int|null The ID of the product.
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+
+    /**
+     * Get the model of the product.
+     *
+     * @return string|null The model of the product.
+     */
     public function getModel(): ?string
     {
         return $this->model;
     }
 
+    /**
+     * Set the model of the product.
+     *
+     * @param string $model The model of the product.
+     * 
+     * @return self
+     */
     public function setModel(string $model): static
     {
         $this->model = $model;
@@ -57,11 +76,23 @@ class Product
         return $this;
     }
 
+    /**
+     * Get the brand of the product.
+     *
+     * @return string|null The brand of the product.
+     */
     public function getBrand(): ?string
     {
         return $this->brand;
     }
 
+    /**
+     * Set the brand of the product.
+     *
+     * @param string $brand The brand of the product.
+     * 
+     * @return self
+     */
     public function setBrand(string $brand): static
     {
         $this->brand = $brand;
@@ -69,11 +100,23 @@ class Product
         return $this;
     }
 
+    /**
+     * Get the price of the product.
+     *
+     * @return float|null The price of the product.
+     */
     public function getPrice(): ?float
     {
         return $this->price;
     }
 
+    /**
+     * Set the price of the product.
+     *
+     * @param float $price The price of the product.
+     * 
+     * @return self
+     */
     public function setPrice(float $price): static
     {
         $this->price = $price;
@@ -81,11 +124,23 @@ class Product
         return $this;
     }
 
+    /**
+     * Get the description of the product.
+     *
+     * @return string|null The description of the product.
+     */
     public function getDescription(): ?string
     {
         return $this->description;
     }
 
+    /**
+     * Set the description of the product.
+     *
+     * @param string|null $description The description of the product.
+     * 
+     * @return self
+     */
     public function setDescription(?string $description): static
     {
         $this->description = $description;
@@ -93,15 +148,28 @@ class Product
         return $this;
     }
 
+    /**
+     * Get the creation date of the product.
+     *
+     * @return \DateTimeImmutable|null The creation date of the product.
+     */
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->created_at;
     }
 
+    /**
+     * Set the creation date of the product.
+     *
+     * @param \DateTimeImmutable $created_at The creation date of the product.
+     * 
+     * @return self
+     */
     public function setCreatedAt(\DateTimeImmutable $created_at): static
     {
         $this->created_at = $created_at;
 
         return $this;
     }
+
 }
