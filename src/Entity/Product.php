@@ -49,7 +49,7 @@ class Product
     public function getId(): ?int
     {
         return $this->id;
-    }
+    }//end getId()
 
 
     /**
@@ -60,7 +60,7 @@ class Product
     public function getModel(): ?string
     {
         return $this->model;
-    }
+    }//end getModel()
 
     /**
      * Set the model of the product.
@@ -74,7 +74,7 @@ class Product
         $this->model = $model;
 
         return $this;
-    }
+    }//end setModel()
 
     /**
      * Get the brand of the product.
@@ -84,7 +84,7 @@ class Product
     public function getBrand(): ?string
     {
         return $this->brand;
-    }
+    }//end getBrand()
 
     /**
      * Set the brand of the product.
@@ -98,7 +98,7 @@ class Product
         $this->brand = $brand;
 
         return $this;
-    }
+    }//end setBrand()
 
     /**
      * Get the price of the product.
@@ -108,7 +108,7 @@ class Product
     public function getPrice(): ?float
     {
         return $this->price;
-    }
+    }//end getPrice()
 
     /**
      * Set the price of the product.
@@ -122,7 +122,7 @@ class Product
         $this->price = $price;
 
         return $this;
-    }
+    }//end setPrice()
 
     /**
      * Get the description of the product.
@@ -132,7 +132,7 @@ class Product
     public function getDescription(): ?string
     {
         return $this->description;
-    }
+    }//end getDescription()
 
     /**
      * Set the description of the product.
@@ -146,7 +146,7 @@ class Product
         $this->description = $description;
 
         return $this;
-    }
+    }//end setDescription()
 
     /**
      * Get the creation date of the product.
@@ -156,7 +156,7 @@ class Product
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->created_at;
-    }
+    }//end getCreatedAt()
 
     /**
      * Set the creation date of the product.
@@ -170,6 +170,6 @@ class Product
         $this->created_at = $created_at;
 
         return $this;
-    }
+    }//end setCreatedAt()
 
 }

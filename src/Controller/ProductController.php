@@ -70,7 +70,7 @@ class ProductController extends AbstractController
         $jsonProductList = $serializerInterface->serialize($productList, 'json');
 
         return new JsonResponse($jsonProductList, Response::HTTP_OK, [], true);
-    }
+    }//end getAllProducts()
 
 
     /**
@@ -120,6 +120,6 @@ class ProductController extends AbstractController
             return new JsonResponse(['message' => 'Ce produit n\'est pas ou plus référencé.'], Response::HTTP_NOT_FOUND);
         }
         return new JsonResponse(null, Response::HTTP_NOT_FOUND);
-    }
+    }//end getDetailproduct()
 
 }

@@ -82,7 +82,7 @@ class ConsumerController extends AbstractController
         $jsonConsumerList = $serializer->serialize($consumerList, 'json', $context);
 
         return new JsonResponse($jsonConsumerList, Response::HTTP_OK, [], true);
-    }
+    }//end getAllconsumers()
 
 
     /**
@@ -142,7 +142,7 @@ class ConsumerController extends AbstractController
             return new JsonResponse(['message' => 'Ce client n\'existe pas ou n\'est pas associé à votre portefeuille client.'], Response::HTTP_NOT_FOUND);
         }
       
-    }
+    }//end getDetailconsumer()
 
     /**
      * Deletes a consumer associated with a specific partner.
@@ -197,7 +197,7 @@ class ConsumerController extends AbstractController
         $em->remove($consumer);
         $em->flush();
         return new JsonResponse(null, Response::HTTP_NO_CONTENT);
-    }
+    }//end deleteConsumer()
 
 
     /**
@@ -278,6 +278,6 @@ class ConsumerController extends AbstractController
             $context = SerializationContext::create()->setGroups(['getPartner']);
             $jsonConsumer = $serializer->serialize($consumer, 'json', $context);
             return new JsonResponse($jsonConsumer, Response::HTTP_CREATED, [], true);
-    }
+    }//end createConsumer()
 
 }

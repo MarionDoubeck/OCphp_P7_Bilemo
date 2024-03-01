@@ -23,7 +23,7 @@ class AppFixtures extends Fixture
     {
         $faker = Faker\Factory::create('fr_FR');
 
-        //partners
+        // Partners.
         $admin = new Partner();
         $admin->setUsername('Bilemo Admin');
         $admin->setRoles(["ROLE_ADMIN"]);
@@ -36,7 +36,7 @@ class AppFixtures extends Fixture
         $partner->setPassword($this->partnerPasswordHasher->hashPassword($partner, "password"));
         $manager->persist($partner);
 
-        //mobiles
+        // Mbiles.
         $brands=['Apple', 'Samsung', 'Huawei', 'Xiaomi', 'Google', 'Sony', 'Oppo', 'OnePlus', 'Motorola', 'Vivo'];
         for ($i = 1; $i < 30; $i++){
             $mobile = new Product;
@@ -48,7 +48,7 @@ class AppFixtures extends Fixture
             $manager->persist($mobile);
         }
 
-        //consumers
+        // Consumers.
         for ($i = 1; $i < 30; $i++){
             $consumer = new Consumer;
             $consumer->setFirstName($faker->firstName);

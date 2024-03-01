@@ -85,7 +85,7 @@ class Consumer
     public function getId(): ?int
     {
         return $this->id;
-    }
+    }//end getId()
 
 
     /**
@@ -96,7 +96,7 @@ class Consumer
     public function getFirstName(): ?string
     {
         return $this->firstName;
-    }
+    }//end getFirstName()
 
 
     /**
@@ -111,7 +111,7 @@ class Consumer
         $this->firstName = $firstName;
 
         return $this;
-    }
+    }//end setFirstName()
 
 
     /**
@@ -122,7 +122,7 @@ class Consumer
     public function getLastName(): ?string
     {
         return $this->lastName;
-    }
+    }//end getLastName()
 
 
     /**
@@ -137,7 +137,7 @@ class Consumer
         $this->lastName = $lastName;
 
         return $this;
-    }
+    }//end setLastName()
 
 
     /**
@@ -148,7 +148,7 @@ class Consumer
     public function getEmail(): ?string
     {
         return $this->email;
-    }
+    }//end getEmail()
 
 
     /**
@@ -163,7 +163,7 @@ class Consumer
         $this->email = $email;
 
         return $this;
-    }
+    }//end setEmail()
 
 
     /**
@@ -174,7 +174,7 @@ class Consumer
     public function getAdress(): ?string
     {
         return $this->adress;
-    }
+    }//end getAdress()
 
 
     /**
@@ -189,7 +189,7 @@ class Consumer
         $this->adress = $adress;
 
         return $this;
-    }
+    }//end setAdress()
 
 
     /**
@@ -200,7 +200,7 @@ class Consumer
     public function getPostCode(): ?string
     {
         return $this->postCode;
-    }
+    }//end getPostCode()
 
 
     /**
@@ -215,7 +215,7 @@ class Consumer
         $this->postCode = $postCode;
 
         return $this;
-    }
+    }//end setPostCode()
 
 
     /**
@@ -226,7 +226,7 @@ class Consumer
     public function getCity(): ?string
     {
         return $this->city;
-    }
+    }//end getCity()
 
 
     /**
@@ -241,7 +241,7 @@ class Consumer
         $this->city = $city;
 
         return $this;
-    }
+    }//end setCity()
 
 
     /**
@@ -252,7 +252,7 @@ class Consumer
     public function getPartner(): ?Partner
     {
         return $this->partner;
-    }
+    }//end getPartner()
 
 
     /**
@@ -267,5 +267,5 @@ class Consumer
         $this->partner = $partner;
 
         return $this;
-    }
+    }//end setPartner()
 }
