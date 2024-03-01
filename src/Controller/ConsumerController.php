@@ -73,7 +73,7 @@ class ConsumerController extends AbstractController
             $itemInCache->tag("consumersCache");
             $resultList = $consumerRepository->findAllByPartnerIdWithPagination($partner_id, $page, $limit);
             return $resultList;
-            }
+        }
         );
 
         if (count($consumerList) === 0) {
@@ -270,7 +270,7 @@ class ConsumerController extends AbstractController
         if (!$partner) {
             return new JsonResponse(["error" => "Partner not found"], Response::HTTP_NOT_FOUND);
         }
-    
+
         $consumer = $serializer->deserialize($request->getContent(), consumer::class, 'json');
 
         $errors = $validator->validate($consumer);
@@ -289,4 +289,4 @@ class ConsumerController extends AbstractController
     }//end createConsumer()
 
 
-}
+}//end class

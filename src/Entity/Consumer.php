@@ -40,7 +40,7 @@ class Consumer
     /**
      * The unique identifier of the consumer.
      *
-     * @var int|null
+     * @var integer|null
      */
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -121,7 +121,7 @@ class Consumer
     /**
      * Get the ID of the consumer.
      *
-     * @return int|null The ID of the consumer.
+     * @return integer|null The ID of the consumer.
      */
     public function getId(): ?int
     {

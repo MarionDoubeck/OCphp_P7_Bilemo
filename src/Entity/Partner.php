@@ -16,7 +16,7 @@ class Partner implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * The unique identifier of the partner.
      *
-     * @var int|null
+     * @var integer|null
      */
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -69,7 +69,7 @@ class Partner implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * Get the ID of the partner.
      *
-     * @return int|null The ID of the partner.
+     * @return integer|null The ID of the partner.
      */
     public function getId(): ?int
     {

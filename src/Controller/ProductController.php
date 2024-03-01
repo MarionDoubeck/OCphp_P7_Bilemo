@@ -62,7 +62,6 @@ class ProductController extends AbstractController
         $idCache = "getAllProducts-".$page."-".$limit;
 
         $productList = $cache->get($idCache, function (ItemInterface $itemInCache) use ($productRepository, $page, $limit) {
-            echo ('pas encore en cache');
             $itemInCache->tag("productsCache");
             return $productRepository->findAllWithPagination($page, $limit);
         });
