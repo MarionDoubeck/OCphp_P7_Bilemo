@@ -36,42 +36,83 @@ use Hateoas\Configuration\Annotation as Hateoas;
 #[ORM\Entity(repositoryClass: ConsumerRepository::class)]
 class Consumer
 {
+
+    /**
+     * The unique identifier of the consumer.
+     *
+     * @var int|null
+     */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     #[Groups(["getPartner"])]
     private ?int $id = null;
 
+    /**
+     * The first name of the consumer.
+     *
+     * @var string|null
+     */
     #[ORM\Column(length: 255)]
     #[Groups(["getPartner"])]
     #[Assert\NotBlank(message: "Le prénom du client est obligatoire")]
     #[Assert\Length(min:1, max: 255, minMessage:"Le prénom du client doit faire au moins {{limit}} caractère(s)", maxMessage:"Le prénom du client doit faire au plus {{limit}} caractères")]
     private ?string $firstName = null;
 
+    /**
+     * The last name of the consumer.
+     *
+     * @var string|null
+     */
     #[ORM\Column(length: 255)]
     #[Groups(["getPartner"])]
     #[Assert\NotBlank(message: "Le nom du client est obligatoire")]
     #[Assert\Length(min:1, max: 255, minMessage:"Le nom du client doit faire au moins {{limit}} caractère(s)", maxMessage:"Le nom du client doit faire au plus {{limit}} caractères")]
     private ?string $lastName = null;
 
+    /**
+     * The email address of the consumer.
+     *
+     * @var string|null
+     */
     #[ORM\Column(length: 255)]
     #[Groups(["getPartner"])]
     #[Assert\NotBlank(message: "L'adresse email du client est obligatoire")]
     #[Assert\Email(message: "L'adresse email du client n'est pas valide")]
     private ?string $email = null;
 
+    /**
+     * The address of the consumer.
+     *
+     * @var string|null
+     */
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups(["getPartner"])]
     private ?string $adress = null;
 
+    /**
+     * The postal code of the consumer.
+     *
+     * @var string|null
+     */
     #[ORM\Column(length: 20, nullable: true)]
     #[Groups(["getPartner"])]
     private ?string $postCode = null;
 
+    /**
+     * The city of the consumer.
+     *
+     * @var string|null
+     */
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups(["getPartner"])]
     private ?string $city = null;
 
+    /**
+     * The partner associated with the consumer.
+     *
+     * @var Partner|null
+     */
     #[ORM\ManyToOne(inversedBy: 'consumers')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Partner $partner = null;

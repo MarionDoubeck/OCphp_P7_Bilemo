@@ -73,7 +73,7 @@ class ConsumerController extends AbstractController
             $itemInCache->tag("consumersCache");
             $resultList = $consumerRepository->findAllByPartnerIdWithPagination($partner_id, $page, $limit);
             return $resultList;
-        }
+            }
         );
 
         if (count($consumerList) === 0) {
@@ -144,7 +144,7 @@ class ConsumerController extends AbstractController
         }
 
         return new JsonResponse(['message' => 'Ce client n\'existe pas ou n\'est pas associé à votre portefeuille client.'], Response::HTTP_NOT_FOUND);
-      
+
     }//end getDetailconsumer()
 
 
@@ -274,7 +274,7 @@ class ConsumerController extends AbstractController
         $consumer = $serializer->deserialize($request->getContent(), consumer::class, 'json');
 
         $errors = $validator->validate($consumer);
-        if( $errors->count() > 0 ) {
+        if ($errors->count() > 0) {
             return new JsonResponse($serializer->serialize($errors, 'json'), JsonResponse::HTTP_BAD_REQUEST, [], true);
         }
 

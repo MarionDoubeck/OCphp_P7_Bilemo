@@ -28,37 +28,46 @@ Only referenced clients can access the APIs. API clients must be authenticated v
 ### Available Endpoints
 
 #### List of Products
+
 GET /api/products
 Returns the list of BileMo products.
 
 #### Product Details
+
 GET /api/products/{id}
 Returns the details of a specified BileMo product by its identifier.
 
 #### List of Consumers
+
 GET /api/partners/{partner_id}/consumers
 Returns the list of registered consumers linked to a client.
 
 #### Consumer Detail
+
 GET /api/partners/{partner_id}/consumers/{id}
 Returns the details of a registered consumer linked to a client by its identifier.
 
 #### Add Consumer
+
 POST /api/partners/{partner_id}/consumers
 Allow adding a new consumer linked to a client.
 
 #### Delete Consumer
+
 DELETE /api/partners/{partner_id}/consumers/{id}
 Allows deleting a consumer added by a client specified by its identifier.
 
 ### Usage Example
+
 GET /api/products
 Authorization: Bearer <your-jwt-token>
 
 ### Error Handling
+
 In case of an error, appropriate HTTP status codes will be returned, accompanied by explanatory messages to help diagnose the problem.
 
 ### Notes
+
 For more details on accepted parameters and possible responses for each endpoint, please refer to the provided technical documentation at the endpoint
 /api/doc
 
@@ -79,6 +88,7 @@ In your terminal, run the following command to install the project dependencies 
 composer install
 ```
 ### Environment Configuration
+
 Ensure that your environment is properly configured, including the database. You'll need to create a env.local file for your local configuration. Here's an example of the content for this file:
 
 ```
@@ -92,6 +102,7 @@ JWT_PASSPHRASE=PASSWORD
 Make sure to customize the values with your specific information.
 
 ### Migrations
+
 To create the database tables, execute the migration using the following command:
 
 ```
@@ -99,6 +110,7 @@ php bin/console doctrine:migrations:migrate
 ```
 
 ### Loading Fixtures
+
 To load data into the database, execute the following command:
 ```
 php bin/console doctrine:fixtures:load
@@ -106,6 +118,7 @@ php bin/console doctrine:fixtures:load
 
 
 ### Running the Application
+
 To run the application, execute the following command:
 
 ```
