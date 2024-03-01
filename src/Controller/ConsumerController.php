@@ -22,6 +22,8 @@ use OpenApi\Annotations as OA;
 
 class ConsumerController extends AbstractController
 {
+
+
     /**
      * Retrieves a paginated list of consumers associated with a specific partner.
      *
@@ -46,11 +48,11 @@ class ConsumerController extends AbstractController
      *     )
      * )
      * @OA\Tag(name="Consumers")
-     * 
-     * @param int $partner_id The ID of the partner.
-     * @param ConsumerRepository $consumerRepository The consumer repository.
-     * @param SerializerInterface $serializer The serializer.
-     * @param Request $request The request object.
+     *
+     * @param int                    $partner_id The ID of the partner.
+     * @param ConsumerRepository     $consumerRepository The consumer repository.
+     * @param SerializerInterface    $serializer The serializer.
+     * @param Request                $request The request object.
      * @param TagAwareCacheInterface $cache The cache service.
      * @return JsonResponse The JSON response containing the paginated list of consumers.
      */
@@ -61,8 +63,7 @@ class ConsumerController extends AbstractController
         SerializerInterface $serializer,
         Request $request,
         TagAwareCacheInterface $cache
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $page = $request->get('page',1);
         $limit = $request->get('limit',3);
 
@@ -72,7 +73,8 @@ class ConsumerController extends AbstractController
             $itemInCache->tag("consumersCache");
             $resultList = $consumerRepository->findAllByPartnerIdWithPagination($partner_id, $page, $limit);
             return $resultList;
-        });
+        }
+        );
 
         if (count($consumerList) === 0) {
             return new JsonResponse(['message' => 'Ce partenaire n existe pas ou son portefeuille client est vide.'], Response::HTTP_NOT_FOUND);
@@ -82,6 +84,7 @@ class ConsumerController extends AbstractController
         $jsonConsumerList = $serializer->serialize($consumerList, 'json', $context);
 
         return new JsonResponse($jsonConsumerList, Response::HTTP_OK, [], true);
+
     }//end getAllconsumers()
 
 
@@ -119,8 +122,8 @@ class ConsumerController extends AbstractController
      *     )
      * )
      *
-     * @param int $partner_id The ID of the partner.
-     * @param int $id The ID of the consumer.
+     * @param int                $partner_id The ID of the partner.
+     * @param int                $id The ID of the consumer.
      * @param ConsumerRepository $consumerRepository The consumer repository.
      * @param SerializerInterface $serializer The serializer.
      * @return JsonResponse The JSON response containing the consumer details.
@@ -138,11 +141,12 @@ class ConsumerController extends AbstractController
             $context = SerializationContext::create()->setGroups(['getPartner']);
             $jsonConsumer = $serializer->serialize($consumer, 'json', $context);
             return new JsonResponse($jsonConsumer, Response::HTTP_OK, [], true);
-        } else {
-            return new JsonResponse(['message' => 'Ce client n\'existe pas ou n\'est pas associé à votre portefeuille client.'], Response::HTTP_NOT_FOUND);
         }
+
+        return new JsonResponse(['message' => 'Ce client n\'existe pas ou n\'est pas associé à votre portefeuille client.'], Response::HTTP_NOT_FOUND);
       
     }//end getDetailconsumer()
+
 
     /**
      * Deletes a consumer associated with a specific partner.
@@ -177,8 +181,8 @@ class ConsumerController extends AbstractController
      *     )
      * )
      *
-     * @param int $partner_id The ID of the partner.
-     * @param Consumer $consumer The consumer entity to delete.
+     * @param int                    $partner_id The ID of the partner.
+     * @param Consumer               $consumer The consumer entity to delete.
      * @param EntityManagerInterface $em The entity manager.
      * @param TagAwareCacheInterface $cache The cache service.
      * @return JsonResponse The JSON response indicating the success of the deletion.
@@ -193,10 +197,12 @@ class ConsumerController extends AbstractController
         if ($consumer->getPartner()->getId() !== $partner_id) {
             return new JsonResponse(['error' => 'Le consommateur n\'appartient pas à votre portefeuille client'], Response::HTTP_BAD_REQUEST);
         }
+
         $cache->invalidateTags(["consumersCache"]);
         $em->remove($consumer);
         $em->flush();
         return new JsonResponse(null, Response::HTTP_NO_CONTENT);
+
     }//end deleteConsumer()
 
 
@@ -241,12 +247,12 @@ class ConsumerController extends AbstractController
      *     )
      * )
      *
-     * @param int $partner_id The ID of the partner.
-     * @param PartnerRepository $partnerRepository The partner repository.
-     * @param Request $request The request object.
-     * @param SerializerInterface $serializer The serializer.
+     * @param int                    $partner_id The ID of the partner.
+     * @param PartnerRepository      $partnerRepository The partner repository.
+     * @param Request                $request The request object.
+     * @param SerializerInterface    $serializer The serializer.
      * @param EntityManagerInterface $em The entity manager.
-     * @param ValidatorInterface $validator The validator.
+     * @param ValidatorInterface     $validator The validator.
      * @param TagAwareCacheInterface $cache The cache service.
      * @return JsonResponse The JSON response containing the created consumer.
      */
@@ -268,16 +274,18 @@ class ConsumerController extends AbstractController
         $consumer = $serializer->deserialize($request->getContent(), consumer::class, 'json');
 
         $errors = $validator->validate($consumer);
-        if($errors->count() > 0){
+        if( $errors->count() > 0 ) {
             return new JsonResponse($serializer->serialize($errors, 'json'), JsonResponse::HTTP_BAD_REQUEST, [], true);
         }
-            $consumer->setPartner($partner);
-            $cache->invalidateTags(["consumersCache"]);
-            $em->persist($consumer);
-            $em->flush();
-            $context = SerializationContext::create()->setGroups(['getPartner']);
-            $jsonConsumer = $serializer->serialize($consumer, 'json', $context);
-            return new JsonResponse($jsonConsumer, Response::HTTP_CREATED, [], true);
+
+        $consumer->setPartner($partner);
+        $cache->invalidateTags(["consumersCache"]);
+        $em->persist($consumer);
+        $em->flush();
+        $context = SerializationContext::create()->setGroups(['getPartner']);
+        $jsonConsumer = $serializer->serialize($consumer, 'json', $context);
+        return new JsonResponse($jsonConsumer, Response::HTTP_CREATED, [], true);
+
     }//end createConsumer()
 
 
