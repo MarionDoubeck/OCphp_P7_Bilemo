@@ -121,9 +121,10 @@ class ProductController extends AbstractController
         } else {
             return new JsonResponse(['message' => 'Ce produit n\'est pas ou plus référencé.'], Response::HTTP_NOT_FOUND);
         }
+
         return new JsonResponse(null, Response::HTTP_NOT_FOUND);
 
     }//end getDetailproduct()
 
 
-}
+}//end class

@@ -33,8 +33,8 @@ class ProductRepository extends ServiceEntityRepository
     /**
      * Retrieves a paginated list of products.
      *
-     * @param int  $page The page number.
-     * @param int  $limit The maximum number of products per page.
+     * @param int $page The page number.
+     * @param int $limit The maximum number of products per page.
      * @return Product[] The paginated list of products.
      */
     public function findAllWithPagination($page, $limit)
