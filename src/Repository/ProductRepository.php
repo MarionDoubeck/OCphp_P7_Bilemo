@@ -19,7 +19,7 @@ class ProductRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Product::class);
-    }
+    }//end __construct()
 
 
     /**
@@ -34,5 +34,5 @@ class ProductRepository extends ServiceEntityRepository
             ->setFirstResult(($page - 1) * $limit)
             ->setMaxResults($limit);
         return $qb->getQuery()->getResult();
-    }
+    }//end findAllWithPagination()
 }
