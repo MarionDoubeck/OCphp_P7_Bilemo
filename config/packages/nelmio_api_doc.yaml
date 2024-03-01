@@ -1,7 +1,7 @@
 nelmio_api_doc:
     documentation:
         info:
-            title: Milebo
+            title: Bilemo
             description: Une application de vitrine de téléphones mobiles en B2B fournissant des API pour consulter les produits et gérer les consommateurs
             version: 1.0.0
         paths:
