@@ -124,7 +124,7 @@ class Partner implements UserInterface, PasswordAuthenticatedUserInterface
      * Get the roles of the partner.
      *
      * @see UserInterface
-     * 
+     *
      * @return array The roles of the partner.
      */
     public function getRoles(): array
@@ -183,16 +183,17 @@ class Partner implements UserInterface, PasswordAuthenticatedUserInterface
 
     }//end setPassword()
 
+
     /**
      * Erase the partner's credentials.
      * 
      * @see UserInterface
+     * @return self
      */
     public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here.
         // $this->plainPassword = null;.
-
     }//end eraseCredentials()
 
 
@@ -217,7 +218,7 @@ class Partner implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function addConsumer(Consumer $consumer): static
     {
-        if (!$this->consumers->contains($consumer)) {
+        if ($this->consumers->contains($consumer) === FALSE) {
             $this->consumers->add($consumer);
             $consumer->setPartner($this);
         }

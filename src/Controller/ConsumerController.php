@@ -73,7 +73,7 @@ class ConsumerController extends AbstractController
             $itemInCache->tag("consumersCache");
             $resultList = $consumerRepository->findAllByPartnerIdWithPagination($partner_id, $page, $limit);
             return $resultList;
-            }
+        }
         );
 
         if (count($consumerList) === 0) {

@@ -26,17 +26,18 @@ class AppFixtures extends Fixture
      *
      * @param UserPasswordHasherInterface $partnerPwdHasher The service for hashing partner passwords.
      */
-    public function __construct(UserPasswordHasherInterface $partnerPwdHasher){
+    public function __construct(UserPasswordHasherInterface $partnerPwdHasher)
+    {
         $this->partnerPwdHasher = $partnerPwdHasher;
 
-    }// end __construct()
+    }//end __construct()
 
 
     /**
      * Load data fixtures with the passed EntityManager.
      *
      * @param ObjectManager $manager The EntityManager instance.
-     * 
+     *
      * @return void
      */
     public function load(ObjectManager $manager): void
@@ -58,17 +59,17 @@ class AppFixtures extends Fixture
 
         // Mbiles.
         $brands = [
-            'Apple', 
-            'Samsung', 
-            'Huawei', 
-            'Xiaomi', 
-            'Google', 
-            'Sony', 
-            'Oppo', 
-            'OnePlus', 
-            'Motorola', 
-            'Vivo'
-        ];
+                   'Apple',
+                   'Samsung',
+                   'Huawei',
+                   'Xiaomi', 
+                   'Google', 
+                   'Sony',
+                   'Oppo', 
+                   'OnePlus',
+                   'Motorola',
+                   'Vivo'
+                  ];
         for ($i = 1; $i < 30; $i++) {
             $mobile = new Product;
             $mobile->setModel($faker->unique()->word);
