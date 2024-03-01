@@ -17,6 +17,7 @@ use Doctrine\Persistence\ManagerRegistry;
 class ConsumerRepository extends ServiceEntityRepository
 {
 
+
     /**
      * ConsumerRepository constructor.
      */
@@ -30,9 +31,9 @@ class ConsumerRepository extends ServiceEntityRepository
     /**
      * Finds all consumers associated with a specific partner and applies pagination.
      *
-     * @param int $partnerId The ID of the partner
-     * @param int $page The page number
-     * @param int $limit The maximum number of consumers per page
+     * @param int     $partnerId The ID of the partner
+     * @param int     $page The page number
+     * @param int     $limit The maximum number of consumers per page
      * @return Consumer[] A paginated list of consumers associated with the partner
      */
     public function findAllByPartnerIdWithPagination(int $partnerId, int $page, int $limit): array
@@ -48,4 +49,4 @@ class ConsumerRepository extends ServiceEntityRepository
     }//end findAllByPartnerIdWithPagination()
 
 
-}
+}//end class
