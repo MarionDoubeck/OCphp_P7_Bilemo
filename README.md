@@ -1,5 +1,7 @@
 # BileMo API Documentation
 
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/00e9c0d49c8f4c79bd6f73b1f74f41b1)](https://app.codacy.com/gh/MarionDoubeck/OCphp_P7_Bilemo/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
+
 Welcome to the documentation of the BileMo API, a platform offering a selection of high-end mobile phones available exclusively through B2B (business to business) sales.
 
 ## Context

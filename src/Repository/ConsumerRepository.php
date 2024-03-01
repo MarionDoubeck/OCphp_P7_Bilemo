@@ -16,6 +16,13 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ConsumerRepository extends ServiceEntityRepository
 {
+
+
+    /**
+     * Constructor.
+     *
+     * @param ManagerRegistry $registry The registry.
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Consumer::class);
@@ -44,4 +51,4 @@ class ConsumerRepository extends ServiceEntityRepository
     }//end findAllByPartnerIdWithPagination()
 
 
-}
+}//end class

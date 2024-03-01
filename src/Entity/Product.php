@@ -24,7 +24,7 @@ class Product
     /**
      * The unique identifier of the product.
      *
-     * @var int|null
+     * @var integer|null
      */
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -75,7 +75,7 @@ class Product
     /**
      * Get the ID of the product.
      *
-     * @return int|null The ID of the product.
+     * @return integer|null The ID of the product.
      */
     public function getId(): ?int
     {

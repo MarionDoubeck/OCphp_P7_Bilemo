@@ -21,11 +21,19 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
  */
 class PartnerRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
+
+
+    /**
+     * Constructor.
+     *
+     * @param ManagerRegistry $registry The registry.
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Partner::class);
 
     }//end __construct()
+
 
     /**
      * Used to upgrade (rehash) the user's password automatically over time.

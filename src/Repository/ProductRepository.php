@@ -16,6 +16,13 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ProductRepository extends ServiceEntityRepository
 {
+
+
+    /**
+     * Constructor.
+     *
+     * @param ManagerRegistry $registry The registry.
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Product::class);
@@ -30,7 +37,8 @@ class ProductRepository extends ServiceEntityRepository
      * @param int $limit The maximum number of products per page.
      * @return Product[] The paginated list of products.
      */
-    public function findAllWithPagination($page, $limit) {
+    public function findAllWithPagination($page, $limit)
+    {
         $qb = $this->createQueryBuilder('b')
             ->setFirstResult(($page - 1) * $limit)
             ->setMaxResults($limit);
@@ -39,4 +47,4 @@ class ProductRepository extends ServiceEntityRepository
     }//end findAllWithPagination()
 
 
-}
+}//end class

@@ -17,6 +17,8 @@ use OpenApi\Annotations as OA;
 
 class ProductController extends AbstractController
 {
+
+
     /**
      * Retrieves a paginated list of all products.
      *
@@ -41,10 +43,10 @@ class ProductController extends AbstractController
      *     )
      * )
      * @OA\Tag(name="Products")
-     * 
-     * @param ProductRepository $productRepository The product repository.
-     * @param SerializerInterface $serializerInterface The serializer.
-     * @param Request $request The request object.
+     *
+     * @param ProductRepository      $productRepository The product repository.
+     * @param SerializerInterface    $serializerInterface The serializer.
+     * @param Request                $request The request object.
      * @param TagAwareCacheInterface $cache The cache service.
      * @return JsonResponse The JSON response containing the paginated list of products.
      */
@@ -54,22 +56,22 @@ class ProductController extends AbstractController
         SerializerInterface $serializerInterface,
         Request $request,
         TagAwareCacheInterface $cache
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $page = $request->get('page',1);
         $limit = $request->get('limit',3);
 
         $idCache = "getAllProducts-".$page."-".$limit;
 
         $productList = $cache->get($idCache, function (ItemInterface $itemInCache) use ($productRepository, $page, $limit) {
-            echo ('pas encore en cache');
             $itemInCache->tag("productsCache");
             return $productRepository->findAllWithPagination($page, $limit);
-        });
+        }
+        );
 
         $jsonProductList = $serializerInterface->serialize($productList, 'json');
 
         return new JsonResponse($jsonProductList, Response::HTTP_OK, [], true);
+
     }//end getAllProducts()
 
 
@@ -100,8 +102,8 @@ class ProductController extends AbstractController
      *     )
      * )
      *
-     * @param int $id The ID of the product.
-     * @param ProductRepository $productRepository The product repository.
+     * @param int                 $id The ID of the product.
+     * @param ProductRepository   $productRepository The product repository.
      * @param SerializerInterface $serializerInterface The serializer.
      * @return JsonResponse The JSON response containing the product details.
      */
@@ -119,8 +121,10 @@ class ProductController extends AbstractController
         } else {
             return new JsonResponse(['message' => 'Ce produit n\'est pas ou plus référencé.'], Response::HTTP_NOT_FOUND);
         }
+
         return new JsonResponse(null, Response::HTTP_NOT_FOUND);
+
     }//end getDetailproduct()
 
 
-}
+}//end class

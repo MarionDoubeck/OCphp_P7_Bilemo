@@ -13,9 +13,9 @@ use Hateoas\Configuration\Annotation as Hateoas;
  *      "self",
  *      href = @Hateoas\Route(
  *          "api_detailConsumer",
- *          parameters = { 
+ *          parameters = {
  *              "partner_id" = "expr(object.getPartner().getId())",
- *              "id" = "expr(object.getId())" 
+ *              "id" = "expr(object.getId())"
  *          }
  *      ),
  *      exclusion = @Hateoas\Exclusion(groups="getPartner")
@@ -40,7 +40,7 @@ class Consumer
     /**
      * The unique identifier of the consumer.
      *
-     * @var int|null
+     * @var integer|null
      */
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -121,7 +121,7 @@ class Consumer
     /**
      * Get the ID of the consumer.
      *
-     * @return int|null The ID of the consumer.
+     * @return integer|null The ID of the consumer.
      */
     public function getId(): ?int
     {
@@ -174,7 +174,7 @@ class Consumer
      * Set the last name of the consumer.
      *
      * @param string $lastName The last name of the consumer.
-     * 
+     *
      * @return self
      */
     public function setLastName(string $lastName): static
@@ -326,4 +326,4 @@ class Consumer
     }//end setPartner()
 
 
-}
+}//end class

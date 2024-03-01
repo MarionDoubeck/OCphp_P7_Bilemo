@@ -13,12 +13,33 @@ use Faker;
 class AppFixtures extends Fixture
 {
 
-    private $partnerPasswordHasher;
+    /**
+     * The service for hashing partner passwords.
+     *
+     * @var UserPasswordHasherInterface
+     */
+    private $partnerPwdHasher;
 
-    public function __construct(UserPasswordHasherInterface $partnerPasswordHasher){
-        $this->partnerPasswordHasher = $partnerPasswordHasher;
-    }
 
+    /**
+     * Constructor.
+     *
+     * @param UserPasswordHasherInterface $partnerPwdHasher The service for hashing partner passwords.
+     */
+    public function __construct(UserPasswordHasherInterface $partnerPwdHasher)
+    {
+        $this->partnerPwdHasher = $partnerPwdHasher;
+
+    }//end __construct()
+
+
+    /**
+     * Load data fixtures with the passed EntityManager.
+     *
+     * @param ObjectManager $manager The EntityManager instance.
+     *
+     * @return void
+     */
     public function load(ObjectManager $manager): void
     {
         $faker = Faker\Factory::create('fr_FR');
@@ -27,18 +48,29 @@ class AppFixtures extends Fixture
         $admin = new Partner();
         $admin->setUsername('Bilemo Admin');
         $admin->setRoles(["ROLE_ADMIN"]);
-        $admin->setPassword($this->partnerPasswordHasher->hashPassword($admin, "password"));
+        $admin->setPassword($this->partnerPwdHasher->hashPassword($admin, "password"));
         $manager->persist($admin);
 
         $partner = new Partner();
         $partner->setUsername('First Partner');
         $partner->setRoles(["ROLE_USER"]);
-        $partner->setPassword($this->partnerPasswordHasher->hashPassword($partner, "password"));
+        $partner->setPassword($this->partnerPwdHasher->hashPassword($partner, "password"));
         $manager->persist($partner);
 
         // Mbiles.
-        $brands=['Apple', 'Samsung', 'Huawei', 'Xiaomi', 'Google', 'Sony', 'Oppo', 'OnePlus', 'Motorola', 'Vivo'];
-        for ($i = 1; $i < 30; $i++){
+        $brands = [
+                   'Apple',
+                   'Samsung',
+                   'Huawei',
+                   'Xiaomi',
+                   'Google',
+                   'Sony',
+                   'Oppo',
+                   'OnePlus',
+                   'Motorola',
+                   'Vivo',
+                  ];
+        for ($i = 1; $i < 30; $i++) {
             $mobile = new Product;
             $mobile->setModel($faker->unique()->word);
             $mobile->setBrand($brands[array_rand($brands)]);
@@ -49,7 +81,7 @@ class AppFixtures extends Fixture
         }
 
         // Consumers.
-        for ($i = 1; $i < 30; $i++){
+        for ($i = 1; $i < 30; $i++) {
             $consumer = new Consumer;
             $consumer->setFirstName($faker->firstName);
             $consumer->setLastName($faker->lastName);
@@ -62,5 +94,8 @@ class AppFixtures extends Fixture
         }
 
         $manager->flush();
-    }
-}
+
+    }//end load()
+
+
+}//end class
