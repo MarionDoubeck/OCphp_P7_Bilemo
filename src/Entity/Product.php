@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Hateoas\Configuration\Annotation as Hateoas;
 
 /**
- * 
+ *
  * @Hateoas\Relation(
  *      "self",
  *      href = @Hateoas\Route(
@@ -20,23 +20,54 @@ use Hateoas\Configuration\Annotation as Hateoas;
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 class Product
 {
+
+    /**
+     * The unique identifier of the product.
+     *
+     * @var int|null
+     */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
+    /**
+     * The model of the product.
+     *
+     * @var string|null
+     */
     #[ORM\Column(length: 255)]
     private ?string $model = null;
 
+    /**
+     * The brand of the product.
+     *
+     * @var string|null
+     */
     #[ORM\Column(length: 255)]
     private ?string $brand = null;
 
+    /**
+     * The price of the product.
+     *
+     * @var float|null
+     */
     #[ORM\Column]
     private ?float $price = null;
 
+    /**
+     * The description of the product.
+     *
+     * @var string|null
+     */
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
+    /**
+     * The creation date of the product.
+     *
+     * @var \DateTimeImmutable|null
+     */
     #[ORM\Column]
     private ?\DateTimeImmutable $created_at = null;
 
@@ -64,6 +95,7 @@ class Product
 
     }//end getModel()
 
+
     /**
      * Set the model of the product.
      *
@@ -79,6 +111,7 @@ class Product
 
     }//end setModel()
 
+
     /**
      * Get the brand of the product.
      *
@@ -89,6 +122,7 @@ class Product
         return $this->brand;
 
     }//end getBrand()
+
 
     /**
      * Set the brand of the product.
@@ -105,6 +139,7 @@ class Product
 
     }//end setBrand()
 
+
     /**
      * Get the price of the product.
      *
@@ -115,6 +150,7 @@ class Product
         return $this->price;
 
     }//end getPrice()
+
 
     /**
      * Set the price of the product.
@@ -131,6 +167,7 @@ class Product
 
     }//end setPrice()
 
+
     /**
      * Get the description of the product.
      *
@@ -141,6 +178,7 @@ class Product
         return $this->description;
 
     }//end getDescription()
+
 
     /**
      * Set the description of the product.
@@ -157,6 +195,7 @@ class Product
 
     }//end setDescription()
 
+
     /**
      * Get the creation date of the product.
      *
@@ -167,6 +206,7 @@ class Product
         return $this->created_at;
 
     }//end getCreatedAt()
+
 
     /**
      * Set the creation date of the product.

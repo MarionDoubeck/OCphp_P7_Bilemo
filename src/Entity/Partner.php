@@ -12,26 +12,46 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ORM\Entity(repositoryClass: PartnerRepository::class)]
 class Partner implements UserInterface, PasswordAuthenticatedUserInterface
 {
+
+    /**
+     * The unique identifier of the partner.
+     *
+     * @var int|null
+     */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
+    /**
+     * The username of the partner.
+     *
+     * @var string|null
+     */
     #[ORM\Column(length: 180, unique: true)]
     private ?string $username = null;
 
     /**
-     * @var list<string> The user roles
+     * The roles assigned to the partner.
+     *
+     * @var array
      */
     #[ORM\Column]
     private array $roles = [];
 
     /**
-     * @var string The hashed password
+     * The hashed password of the partner.
+     *
+     * @var string|null
      */
     #[ORM\Column]
     private ?string $password = null;
 
+    /**
+     * The consumers associated with the partner.
+     *
+     * @var Collection
+     */
     #[ORM\OneToMany(targetEntity: Consumer::class, mappedBy: 'partner', orphanRemoval: true)]
     private Collection $consumers;
 
