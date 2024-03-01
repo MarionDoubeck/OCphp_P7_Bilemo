@@ -69,7 +69,6 @@ class ConsumerController extends AbstractController
         $cacheKey = sprintf('partner_%d_consumers_page_%d_limit_%d', $partner_id, $page, $limit);
 
         $consumerList = $cache->get($cacheKey, function (ItemInterface $itemInCache) use ($consumerRepository, $partner_id, $page, $limit) {
-            //echo ('pas encore en cache');
             $itemInCache->tag("consumersCache");
             $resultList = $consumerRepository->findAllByPartnerIdWithPagination($partner_id, $page, $limit);
             return $resultList;
