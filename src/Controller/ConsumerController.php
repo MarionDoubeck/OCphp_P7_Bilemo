@@ -49,11 +49,11 @@ class ConsumerController extends AbstractController
      * )
      * @OA\Tag(name="Consumers")
      *
-     * @param int                    $partner_id The ID of the partner.
-     * @param ConsumerRepository     $consumerRepository The consumer repository.
-     * @param SerializerInterface    $serializer The serializer.
-     * @param Request                $request The request object.
-     * @param TagAwareCacheInterface $cache The cache service.
+     * @param int                        $partner_id The ID of the partner.
+     * @param ConsumerRepository         $consumerRepository The consumer repository.
+     * @param SerializerInterface        $serializer The serializer.
+     * @param Request                    $request The request object.
+     * @param TagAwareCacheInterface     $cache The cache service.
      * @return JsonResponse The JSON response containing the paginated list of consumers.
      */
     #[Route('/api/partners/{partner_id}/consumers', name: 'api_consumers', methods:['GET'])]
@@ -122,10 +122,10 @@ class ConsumerController extends AbstractController
      *     )
      * )
      *
-     * @param int                $partner_id The ID of the partner.
-     * @param int                $id The ID of the consumer.
-     * @param ConsumerRepository $consumerRepository The consumer repository.
-     * @param SerializerInterface $serializer The serializer.
+     * @param int                     $partner_id The ID of the partner.
+     * @param int                     $id The ID of the consumer.
+     * @param ConsumerRepository      $consumerRepository The consumer repository.
+     * @param SerializerInterface     $serializer The serializer.
      * @return JsonResponse The JSON response containing the consumer details.
      */
     #[Route('/api/partners/{partner_id}/consumers/{id}', name: 'api_detailConsumer', methods: ['GET'])]
@@ -181,10 +181,10 @@ class ConsumerController extends AbstractController
      *     )
      * )
      *
-     * @param int                    $partner_id The ID of the partner.
-     * @param Consumer               $consumer The consumer entity to delete.
-     * @param EntityManagerInterface $em The entity manager.
-     * @param TagAwareCacheInterface $cache The cache service.
+     * @param int                        $partner_id The ID of the partner.
+     * @param Consumer                   $consumer The consumer entity to delete.
+     * @param EntityManagerInterface     $em The entity manager.
+     * @param TagAwareCacheInterface     $cache The cache service.
      * @return JsonResponse The JSON response indicating the success of the deletion.
      */
     #[Route('/api/partners/{partner_id}/consumers/{id}', name: 'api_deleteConsumer', methods: ['DELETE'])]
