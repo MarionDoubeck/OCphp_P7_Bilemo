@@ -19,6 +19,7 @@ class ConsumerRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Consumer::class);
+
     }//end __construct()
 
 
@@ -39,5 +40,8 @@ class ConsumerRepository extends ServiceEntityRepository
             ->setMaxResults($limit);
 
         return $qb->getQuery()->getResult();
+
     }//end findAllByPartnerIdWithPagination()
+
+
 }

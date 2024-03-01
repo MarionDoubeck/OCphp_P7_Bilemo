@@ -49,6 +49,7 @@ class Product
     public function getId(): ?int
     {
         return $this->id;
+
     }//end getId()
 
 
@@ -60,6 +61,7 @@ class Product
     public function getModel(): ?string
     {
         return $this->model;
+
     }//end getModel()
 
     /**
@@ -74,6 +76,7 @@ class Product
         $this->model = $model;
 
         return $this;
+
     }//end setModel()
 
     /**
@@ -84,6 +87,7 @@ class Product
     public function getBrand(): ?string
     {
         return $this->brand;
+
     }//end getBrand()
 
     /**
@@ -98,6 +102,7 @@ class Product
         $this->brand = $brand;
 
         return $this;
+
     }//end setBrand()
 
     /**
@@ -108,6 +113,7 @@ class Product
     public function getPrice(): ?float
     {
         return $this->price;
+
     }//end getPrice()
 
     /**
@@ -122,6 +128,7 @@ class Product
         $this->price = $price;
 
         return $this;
+
     }//end setPrice()
 
     /**
@@ -132,6 +139,7 @@ class Product
     public function getDescription(): ?string
     {
         return $this->description;
+
     }//end getDescription()
 
     /**
@@ -146,6 +154,7 @@ class Product
         $this->description = $description;
 
         return $this;
+
     }//end setDescription()
 
     /**
@@ -156,6 +165,7 @@ class Product
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->created_at;
+
     }//end getCreatedAt()
 
     /**
@@ -170,6 +180,8 @@ class Product
         $this->created_at = $created_at;
 
         return $this;
+
     }//end setCreatedAt()
+
 
 }

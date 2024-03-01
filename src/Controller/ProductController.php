@@ -122,4 +122,5 @@ class ProductController extends AbstractController
         return new JsonResponse(null, Response::HTTP_NOT_FOUND);
     }//end getDetailproduct()
 
+
 }

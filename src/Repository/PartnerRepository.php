@@ -24,6 +24,7 @@ class PartnerRepository extends ServiceEntityRepository implements PasswordUpgra
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Partner::class);
+
     }//end __construct()
 
     /**
@@ -38,6 +39,8 @@ class PartnerRepository extends ServiceEntityRepository implements PasswordUpgra
         $user->setPassword($newHashedPassword);
         $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush();
+
     }//end upgradePassword()
+
 
 }

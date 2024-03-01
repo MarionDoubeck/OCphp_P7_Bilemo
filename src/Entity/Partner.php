@@ -42,6 +42,7 @@ class Partner implements UserInterface, PasswordAuthenticatedUserInterface
     public function __construct()
     {
         $this->consumers = new ArrayCollection();
+
     }//end __construct()
 
 
@@ -53,6 +54,7 @@ class Partner implements UserInterface, PasswordAuthenticatedUserInterface
     public function getId(): ?int
     {
         return $this->id;
+
     }//end getId()
 
 
@@ -64,6 +66,7 @@ class Partner implements UserInterface, PasswordAuthenticatedUserInterface
     public function getUsername(): ?string
     {
         return $this->username;
+
     }//end getUsername()
 
 
@@ -71,7 +74,7 @@ class Partner implements UserInterface, PasswordAuthenticatedUserInterface
      * Set the username of the partner.
      *
      * @param string $username The username of the partner.
-     * 
+     *
      * @return self
      */
     public function setUsername(string $username): static
@@ -79,6 +82,7 @@ class Partner implements UserInterface, PasswordAuthenticatedUserInterface
         $this->username = $username;
 
         return $this;
+
     }//end setUsername()
 
 
@@ -92,6 +96,7 @@ class Partner implements UserInterface, PasswordAuthenticatedUserInterface
     public function getUserIdentifier(): string
     {
         return (string) $this->username;
+
     }//end getUserIdentifier()
 
 
@@ -109,6 +114,7 @@ class Partner implements UserInterface, PasswordAuthenticatedUserInterface
         $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
+
     }//end getRoles()
 
 
@@ -124,6 +130,7 @@ class Partner implements UserInterface, PasswordAuthenticatedUserInterface
         $this->roles = $roles;
 
         return $this;
+
     }//end setRoles()
 
 
@@ -137,6 +144,7 @@ class Partner implements UserInterface, PasswordAuthenticatedUserInterface
     public function getPassword(): string
     {
         return $this->password;
+
     }//end getPassword()
 
 
@@ -152,6 +160,7 @@ class Partner implements UserInterface, PasswordAuthenticatedUserInterface
         $this->password = $password;
 
         return $this;
+
     }//end setPassword()
 
     /**
@@ -163,6 +172,7 @@ class Partner implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here.
         // $this->plainPassword = null;.
+
     }//end eraseCredentials()
 
 
@@ -174,6 +184,7 @@ class Partner implements UserInterface, PasswordAuthenticatedUserInterface
     public function getConsumers(): Collection
     {
         return $this->consumers;
+
     }//end getConsumers()
 
 
@@ -192,6 +203,7 @@ class Partner implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return $this;
+
     }//end addConsumer()
 
 
@@ -212,5 +224,8 @@ class Partner implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return $this;
+
     }//end removeConsumer()
+
+
 }
