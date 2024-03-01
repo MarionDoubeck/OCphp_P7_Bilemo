@@ -28,15 +28,16 @@ class ExceptionSubscriber implements EventSubscriberInterface
 
         if ($exception instanceof HttpException) {
             $data = [
-                'status' => $exception->getStatusCode(),
-                'message' => $exception->getMessage()
+                'status'      => $exception->getStatusCode(),
+                'message'     => $exception->getMessage()
             ];
 
             $event->setResponse(new JsonResponse($data));
         } else {
             $data = [
-                'status' => 500, // Le status n'existe pas car ce n'est pas une exception HTTP, donc on met 500 par défaut.
-                'message' => $exception->getMessage()
+                // Le status n'existe pas car ce n'est pas une exception HTTP, donc on met 500 par défaut.
+                'status'      => 500, 
+                'message'     => $exception->getMessage()
             ];
 
             $event->setResponse(new JsonResponse($data));
@@ -52,11 +53,9 @@ class ExceptionSubscriber implements EventSubscriberInterface
      */
     public static function getSubscribedEvents(): array
     {
-        return [
-            KernelEvents::EXCEPTION => 'onKernelException',
-        ];
+        return [ KernelEvents::EXCEPTION => 'onKernelException'];
 
     }//end getSubscribedEvents()
 
 
-}
+}//end class
